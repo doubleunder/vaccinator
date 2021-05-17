@@ -7,7 +7,7 @@ from urllib import parse
 class Person:
     def __init__(self, gender, surname, lastname, birth_day, birth_month,
                  birth_year, email, mobile, street, zip, city, egk):
-        self.gender = gender # "m" or "f"
+        self.gender = gender # "m", "f" or "d"
         self.surname = surname
         self.lastname = lastname
         self.birth_day = birth_day # needs 0 padding if <10
