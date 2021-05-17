@@ -1,1 +1,3 @@
 beautifulsoup4
+geocoder
+peewee
