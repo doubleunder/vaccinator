@@ -53,12 +53,17 @@ def post_registration(id: str, token: str, person: dict, text=""):
     print(response.text)
 
 
+def encode_text(s):
+    encoded_string = map(parse.quote, s.split(" "))
+
+    return "+".join(list(encoded_string))
+
+
 def register(id):
     p1 = vars(Person())  # create person to register
 
     p1.update((k, parse.quote(v)) for k, v in p1.items())
-    text = "additional text for registration"  # TODO: urlencode string but turn spaces into +
-
+    text = "additional text for registration"
     post_registration(id, get_token(id), p1, text)
 
 
