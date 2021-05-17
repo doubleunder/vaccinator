@@ -3,8 +3,9 @@
 
 ## Getting started
 - `pip install -r requirements.txt`
-- create a new `Person` according to your details
-- add a text for special remarks
+- create a new `Person` in vaccinator.py according to your details
+- add a text for special remarks 
 
 ## Usage
-run `python3 vaccinator.py`
+- run `python3 vaccinator.py`
+- to update the DB simply run `python3 db.py`
