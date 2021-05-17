@@ -64,7 +64,7 @@ def register(id):
 
     p1.update((k, parse.quote(v)) for k, v in p1.items())
     text = "additional text for registration"
-    post_registration(id, get_token(id), p1, text)
+    post_registration(id, get_token(id), p1, encode_text(text))
 
 
 if __name__ == "__main__":
