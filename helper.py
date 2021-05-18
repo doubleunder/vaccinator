@@ -15,7 +15,7 @@ def get_location(query):
 
 
 def get_distance(source, destination):
-    if destination[0] or destination[1] is None:
+    if destination[0] is None or destination[1] is None:
         destination = source
 
     return distance.distance(source, destination).km

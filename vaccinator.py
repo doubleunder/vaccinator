@@ -9,7 +9,7 @@ class Person:
     def __init__(self, gender, surname, lastname, birth_day, birth_month,
                  birth_year, email, mobile, street, zip, city, egk,
                  max_distance):
-        self.gender = gender  # "m" or "f"
+        self.gender = gender  # "d", "m" or "w"
         self.surname = parse.quote(surname)
         self.lastname = parse.quote(lastname)
         self.birth_day = birth_day  # needs 0 padding if <10
@@ -53,7 +53,7 @@ def post_registration(id: str, token: str, person: Person, text=""):
 
     response = session.post(url, headers=headers, data=payload)
 
-    print(response.text)
+    # print(response.text)
 
 
 def encode_text(s):
@@ -66,8 +66,9 @@ def register(id, p1, text):
     registered, clinic = db.is_registered(id)
 
     if registered:
-        print(f"already registered at {id}")
+        print(f"already registered at {clinic.name} ({clinic.id})")
     else:
+        print(f"try to register at: {clinic.name} ({clinic.id})")
         post_registration(id, get_token(id), p1, encode_text(text))
         db.register_at(clinic)
 
@@ -75,7 +76,7 @@ def register(id, p1, text):
 if __name__ == "__main__":
     # create person to register
     p1 = Person(
-        "d",  # gender: "d", "f" or "m" 
+        "d",  # gender: "d", "m" or "w" 
         "Max",  #surname
         "Muster",  # lastname
         "01",  # birt_hday (needs 0 padding if <10)
@@ -95,5 +96,4 @@ if __name__ == "__main__":
         dist = helper.get_distance(p1.location,
                                    (c['latitude'], c['longitude']))
         if dist <= p1.max_distance:
-            print(f"try to register at: {c.get('name')} ({c.get('id')})")
             register(c.get("id"), p1, additional_text)
