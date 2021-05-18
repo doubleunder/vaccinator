@@ -21,7 +21,7 @@ class Person:
         self.zip = zip
         self.city = parse.quote(city)
         self.egk = egk  # client number on your medical insurance card
-        self.max_distance = max_distance # max distance in KM
+        self.max_distance = max_distance  # max distance in KM
         self.location = helper.get_location(street + ", " + zip + " " + city)
 
 
@@ -68,12 +68,22 @@ def register(id, p1, text):
 
 if __name__ == "__main__":
     # create person to register
-    p1 = Person("d", "Max", "Muster", "01", "03", "1969", "mail@example.com",
-                "01724169420", "Friedrichstraße 6, ", "70174", "Stuttgart",
-                "Z129838971", # egk number
-                50) # max distance in km
+    p1 = Person(
+        "d",  # gender: "d", "f" or "m" 
+        "Max",  #surname
+        "Muster",  # lastname
+        "01",  # birt_hday (needs 0 padding if <10)
+        "03",  # birth_month (needs 0 padding if <10)
+        "1969",  # birth_year
+        "mail@example.com",  # e-mail
+        "01724169420",  # phone number
+        "Friedrichstraße 6",  # street
+        "70174",  # zip
+        "Stuttgart",  # city
+        "Z129838971",  # egk number
+        50)  # max distance in km
 
-    additional_text = ""
+    additional_text = "additional info like prio or diseases"
 
     for c in db.get_info():
         dist = helper.get_distance(p1.location,
