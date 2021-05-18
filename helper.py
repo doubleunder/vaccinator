@@ -54,7 +54,7 @@ def get_clinic_details(url) -> dict:
 
     id = res.url.split("/")[4]
     name = infotext[6].strip()
-    print(f"name: {name}")
+    print(f"found: {name}")
     address = infotext[8].strip() + ", " + infotext[10].strip(
     ) + " " + infotext[11].strip()
     location = get_location(address)

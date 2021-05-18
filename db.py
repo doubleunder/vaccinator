@@ -57,7 +57,11 @@ if __name__ == '__main__':
     for url in helper.get_doctors():
         clinics.append(helper.get_clinic_details(url))
 
-    Clinic.replace_many(clinics).execute()
+    for c in clinics:
+        clinic, created = Clinic.get_or_create(**c)
+        if created:
+            print(f"{clinic.name} got added to DB")
+
     db.close()
 
 else:
