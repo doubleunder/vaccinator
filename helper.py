@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 from urllib import parse
-import datetime
 from geopy.geocoders import Nominatim
 from geopy import distance
 import requests
@@ -9,10 +8,16 @@ import requests
 def get_location(query):
     geolocator = Nominatim(user_agent="vaccinator")
     location = geolocator.geocode(query)
-    return location.latitude, location.longitude
+    if location is not None:
+        return location.latitude, location.longitude
+    else:
+        return False
 
 
 def get_distance(source, destination):
+    if destination[0] or destination[1] is None:
+        destination = source
+
     return distance.distance(source, destination).km
 
 
@@ -40,3 +45,26 @@ def get_doctors():
         pos += 10
         doctors.extend(results)
     return doctors
+
+
+def get_clinic_details(url) -> dict:
+    res = requests.get(url)
+    soup = BeautifulSoup(res.text, "html.parser")
+    infotext = soup.select(".alert-info")[0].text.splitlines()
+
+    id = res.url.split("/")[4]
+    name = infotext[6].strip()
+    print(f"name: {name}")
+    address = infotext[8].strip() + ", " + infotext[10].strip(
+    ) + " " + infotext[11].strip()
+    location = get_location(address)
+
+    details = {
+        "name": name,
+        "id": id,
+        "address": address,
+        "latitude": None if not location else location[0],
+        "longitude": None if not location else location[1]
+    }
+
+    return details

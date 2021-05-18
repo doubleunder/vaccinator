@@ -1,9 +1,6 @@
 from peewee import *
 from playhouse.shortcuts import model_to_dict, dict_to_model
-from bs4 import BeautifulSoup
-from urllib import parse
 import datetime
-import requests
 import helper
 
 db = SqliteDatabase('clinics.db')
@@ -28,32 +25,6 @@ class Clinic(BaseModel):
         return query.get()
 
 
-db.connect()
-db.create_tables([Clinic])
-
-
-def get_clinic_details(url) -> dict:
-    res = requests.get(url)
-    soup = BeautifulSoup(res.text, "html.parser")
-    infotext = soup.select(".alert-info")[0].text.splitlines()
-
-    id = res.url.split("/")[4]
-    name = infotext[6].strip()
-    address = infotext[8].strip() + ", " + infotext[10].strip(
-    ) + " " + infotext[11].strip()
-    location = get_location(address)
-
-    details = {
-        "name": name,
-        "id": id,
-        "address": address,
-        "latitude": location[0],
-        "longitude": location[1]
-    }
-
-    return details
-
-
 def get_info(id="all"):
     if id == "all":
         data = Clinic.select()
@@ -66,8 +37,15 @@ def get_info(id="all"):
 
 
 if __name__ == '__main__':
+    db.connect()
+    db.create_tables([Clinic])
+
+    clinics = []
     for url in helper.get_doctors():
-        clinic = get_clinic_details(url)
-        Clinic.get_or_create(**clinic)
+        clinics.append(helper.get_clinic_details(url))
+
+    Clinic.replace_many(clinics).execute()
+    db.close()
+
 else:
     print(f"db is imported into another module")
