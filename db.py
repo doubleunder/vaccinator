@@ -18,6 +18,7 @@ class Clinic(BaseModel):
     address = TextField()
     latitude = FloatField(null=True)
     longitude = FloatField(null=True)
+    registered = BooleanField(default=False)
 
     @classmethod
     def get_as_dict(cls, expr):
@@ -34,6 +35,18 @@ def get_info(id="all"):
         return result
     else:
         return model_to_dict(Clinic.get_by_id(id))
+
+
+def is_registered(id):
+    clinic = Clinic.get_or_none(Clinic.id == id)
+
+    if clinic is not None:
+        return clinic.registered, clinic
+
+
+def register_at(clinic: Clinic):
+    clinic.registered = True
+    clinic.save()
 
 
 if __name__ == '__main__':

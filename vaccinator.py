@@ -63,7 +63,13 @@ def encode_text(s):
 
 
 def register(id, p1, text):
-    post_registration(id, get_token(id), p1, encode_text(text))
+    registered, clinic = db.is_registered(id)
+
+    if registered:
+        print(f"already registered at {id}")
+    else:
+        post_registration(id, get_token(id), p1, encode_text(text))
+        db.register_at(clinic)
 
 
 if __name__ == "__main__":
@@ -89,5 +95,5 @@ if __name__ == "__main__":
         dist = helper.get_distance(p1.location,
                                    (c['latitude'], c['longitude']))
         if dist <= p1.max_distance:
-            print(f"register at id: {c.get('id')}")
+            print(f"try to register at: {c.get('name')} ({c.get('id')})")
             register(c.get("id"), p1, additional_text)
