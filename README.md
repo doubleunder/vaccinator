@@ -3,7 +3,7 @@
 
 ## Getting started
 - `pip install -r requirements.txt`
-- create a new `Person` in [vaccinator.py](https://github.com/doubleunder/vaccinator/blob/main/vaccinator.py#L71) according to your details
+- create a new `Person` in [vaccinator.py](https://github.com/doubleunder/vaccinator/blob/main/vaccinator.py#L116) according to your details
 - add a text for special remarks 
 
 ## Usage
