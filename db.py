@@ -58,8 +58,9 @@ if __name__ == '__main__':
         clinics.append(helper.get_clinic_details(url))
 
     for c in clinics:
-        clinic, created = Clinic.get_or_create(**c)
-        if created:
+        existing = Clinic.get_or_none(Clinic.id == c.get('id'))
+        if not existing:
+            clinic = Clinic.create(**c)
             print(f"{clinic.name} got added to DB")
 
     db.close()

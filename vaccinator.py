@@ -94,12 +94,6 @@ def post_registration(id: str, token: str, person: Person, vacc, text=""):
     # print(response.text)
 
 
-def encode_text(s):
-    encoded_string = map(parse.quote, s.split(" "))
-
-    return "+".join(list(encoded_string))
-
-
 def register(id, p1, vacc, text=""):
     registered, clinic = db.is_registered(id)
 
