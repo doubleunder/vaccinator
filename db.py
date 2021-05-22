@@ -55,7 +55,9 @@ if __name__ == '__main__':
 
     clinics = []
     for url in helper.get_doctors():
-        clinics.append(helper.get_clinic_details(url))
+        details = helper.get_clinic_details(url)
+        if details is not None:
+            clinics.append(details)
 
     for c in clinics:
         existing = Clinic.get_or_none(Clinic.id == c.get('id'))

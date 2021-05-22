@@ -50,21 +50,21 @@ def get_doctors():
 def get_clinic_details(url) -> dict:
     res = requests.get(url)
     soup = BeautifulSoup(res.text, "html.parser")
-    infotext = soup.select(".alert-info")[0].text.splitlines()
+    if not "Unbekannt" in soup.find("h1", class_="title").text:
+        infotext = soup.select(".alert-info")[0].text.splitlines()
 
-    id = res.url.split("/")[4]
-    name = infotext[6].strip()
-    print(f"found: {name}")
-    address = infotext[8].strip() + ", " + infotext[10].strip(
-    ) + " " + infotext[11].strip()
-    location = get_location(address)
+        id = res.url.split("/")[4]
+        name = infotext[6].strip()
+        print(f"found: {name}")
+        address = infotext[7].strip() + ", " + infotext[8].strip() + " " + infotext[9].strip()
+        location = get_location(address)
 
-    details = {
-        "name": name,
-        "id": id,
-        "address": address,
-        "latitude": None if not location else location[0],
-        "longitude": None if not location else location[1]
-    }
+        details = {
+            "name": name,
+            "id": id,
+            "address": address,
+            "latitude": None if not location else location[0],
+            "longitude": None if not location else location[1]
+        }
 
-    return details
+        return details
