@@ -39,7 +39,7 @@ def get_doctors():
     pos = 0
     while True:
         results = get_google_results(pos)
-        results = [result for result in results if "/praxis" in result]
+        results = [result for result in results if "impfterminmanagement.de/praxis" in result]
         if not results:
             break
         pos += 10

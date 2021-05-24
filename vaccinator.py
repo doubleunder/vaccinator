@@ -91,7 +91,7 @@ def post_registration(id: str, token: str, person: Person, vacc, text=""):
 
     response = session.post(url, headers=headers, data=payload_list)
 
-    # print(response.text)
+    return response
 
 
 def register(id, p1, vacc, text=""):
@@ -101,8 +101,11 @@ def register(id, p1, vacc, text=""):
         print(f"already registered at {clinic.name} ({clinic.id})")
     else:
         print(f"try to register at: {clinic.name} ({clinic.id})")
-        post_registration(id, get_token(id), p1, vacc, text)
-        db.register_at(clinic)
+        res = post_registration(id, get_token(id), p1, vacc, text)
+        if res.status_code == 200:
+            db.register_at(clinic)
+        else:
+            print(f"registration at {clinic.name} ({clinic.id}) failed [HTTP {res.status_code}]")
 
 
 if __name__ == "__main__":
