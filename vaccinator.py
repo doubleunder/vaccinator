@@ -33,7 +33,7 @@ def get_token(id, headers=""):
         f"https://impfterminmanagement.de/praxis/{id}/registrieren",
         headers=headers)
     soup = BeautifulSoup(page.text, "html.parser")
-    token = soup.find(id="patient__token")["value"]
+    token = soup.find(id="patient_csrf_token")["value"]
 
     return token
 
